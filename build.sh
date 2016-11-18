@@ -20,7 +20,7 @@ mv /scratch/$tardirname $godir/$name
 cd $godir/$name
 go build -o $name .
 
-rm -r /project/build
+rm -rf /project/build
 mkdir -p /project/build/templates /project/build/static
 mv $name /project/build
 mv templates /project/build
