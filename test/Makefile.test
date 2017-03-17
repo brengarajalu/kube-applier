@@ -1,0 +1,72 @@
+# Makefile that has a convenient check target.
+# It can be included from another Makefile that only has a TESTS variable
+# defined like this
+#
+# TESTS ?=
+#
+# Runs the tests without assuming anything in terms of existing parallel
+# executiion configuration. Prepends the test's name to each tests output and
+# gives a nice summary at the end of test execution about passed failed tests.
+#
+# TODO: This makefile can be useful in various other packages. Ideally this
+# shuold be moved to a more central directory or repository and included
+# from other repositories.
+
+TEST_DIR:= $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+ROOT_DIR:= $(TEST_DIR)/..
+
+
+failedTestsName = failedTests
+executedTestsName = executedTests
+TEST_TARGETS := $(TESTS:%=TARGET_FOR_%)
+
+# If the tests need a different environment one can append to this variable.
+TEST_ENVIRONMENT = PYTHONPATH=${TEST_DIR}:$$PYTHONPATH PATH=${TEST_DIR}:$$PATH
+
+# Record the executed test to a file.
+# Modify the environment and execute the test. Append the test's name to every
+#    line printed by the test executable. Pipes return the status of the last
+#    command. So using the PIPESTATUS return the test's exit code.
+# If the test has failed, append the test name to a file.
+TARGET_FOR_%: %
+	+@echo $< >> ${TEST_DIR}/${executedTestsName}; \
+        ${TEST_ENVIRONMENT} $< 2>&1 | sed 's/^/  [$<] /'; test $${PIPESTATUS[0]} -eq 0;  \
+	if [ $$? -eq 0 ]; then \
+           echo " PASSED: $<"; \
+        else \
+           echo " FAILED: $<"; \
+	   echo $< >> ${TEST_DIR}/${failedTestsName}; \
+        fi;
+
+
+# Delete the temporary files that indicate passed, failed tests.
+clean:
+	@rm -f ${TEST_DIR}/${failedTestsName} ${TEST_DIR}/${executedTestsName}
+
+# execute the tests and look at the generated temp files afterwards.
+actualCheck: $(TEST_TARGETS)
+	+@failed_tests=$$(find ${TEST_DIR} -type f -name "${failedTestsName}" | xargs cat | wc -l;); \
+	executed_tests=$$(find ${TEST_DIR} -type f -name "${executedTestsName}" | xargs cat | wc -l;); \
+        if [ $$failed_tests -ne 0 ]; then \
+           echo ---------------------------------; \
+           echo "Failed $$failed_tests out of $$executed_tests tests"; \
+           echo ---------------------------------; \
+	else \
+           echo ---------------------------------; \
+           echo "All $$executed_tests tests passed"; \
+           echo ---------------------------------; \
+        fi; \
+        exit $$failed_tests;
+
+
+# Making sure the clean step is always executed before and after the
+# tests run time.  Do not leave residual files in the repo
+check:
+	+@$(MAKE) clean
+	+@$(MAKE) actualCheck
+	+@$(MAKE) clean
+
+all: check
+
+.PHONY: all check preCheck actualCheck
+.DEFAULT_GOAL := all
