@@ -132,7 +132,3 @@ def main():
 if __name__=="__main__":
     main()
 
-#
-# Remaining Test Cases.
-# The path contains multiple kubectl versions
-# The path does not have any kubectl.
