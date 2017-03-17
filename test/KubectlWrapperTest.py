@@ -70,8 +70,10 @@ def namespace_pki_file():
         f.write("\n---\n")
     return os.path.abspath(f.name)
 
-def test_apply_with_file(p,additional_args=[]):
-    subprocess.check_call(["kubectl", "apply", "-f",p] + additional_args)
+def test_apply_with_file(p,additional_args):
+    subprocess.check_call(["kubectl", "apply", "-f", p])
+    subprocess.check_call(["kubectl", "apply", "-f", p] + additional_args)
+    subprocess.check_call(["kubectl", "apply", "--filename",p])
     subprocess.check_call(["kubectl", "apply", "--filename",p] + additional_args)
     os.remove(p)
 
@@ -116,17 +118,14 @@ def main():
     # Also pass additional command line params to make sure they are processed
     # correctly.
     fp = namespace_file()
-    test_apply_with_file(fp)
     test_apply_with_file(fp,["--recursive=false"])
 
     # apply with a file that exists, the file only contains TPR's
     fp = pki_file()
-    test_apply_with_file(fp)
     test_apply_with_file(fp,["--recursive=false"])
 
     # apply with a file that exists, the file contains both non-TPR and TPR
     fp = namespace_pki_file()
-    test_apply_with_file(fp)
     test_apply_with_file(fp,["--recursive=false"])
 
 
