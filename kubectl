@@ -58,17 +58,17 @@ def write_objs_to_file(objs):
             f.write("\n---\n")
     return f
 
-def call_create_or_replace(filename):
+def call_create_or_replace(filename,other_params):
     """For objs that are broken with apply, we will execute create or replace"""
 
-    cmd = [actual_kubectl_path(), "create", "-f", filename]
+    cmd = [actual_kubectl_path(), "create", "-f", filename] + other_params
     logging.debug("Calling CMD  {}".format(cmd))
 
     try:
         subprocess.check_call(cmd)
     except subprocess.CalledProcessError as e:
 
-        cmd = [actual_kubectl_path(), "replace", "-f", filename]
+        cmd = [actual_kubectl_path(), "replace", "-f", filename] + other_params
         logging.debug("Calling CMD  {}".format(cmd))
 
         try:
@@ -123,7 +123,7 @@ def handle_apply_with_filename(params, other_params, filename):
             delete_file(f)
 
     f = write_objs_to_file(apply_broken)
-    call_create_or_replace(f.name)
+    call_create_or_replace(f.name, other_params)
     delete_file(f)
 
 def handle_apply(params):
