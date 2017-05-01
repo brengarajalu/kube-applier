@@ -1,6 +1,8 @@
 environment: overmind[kernel-3-backport]
 type: shell
 commands:
+    - whoami
+    - hostname
     - which -a build-image
     - build-image .
     - cd test
