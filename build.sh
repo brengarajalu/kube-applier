@@ -3,7 +3,7 @@
 # Build a golang project from Github if only one tar is in /project which untars
 # only one top level directory.
 name=kube-applier
-tarname=v0.1.2a.tar.gz
+tarname=v0.1.2b.tar.gz
 
 set -e
 set -x
