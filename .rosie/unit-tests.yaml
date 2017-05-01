@@ -1,6 +1,7 @@
 environment: overmind[kernel-3-backport]
 type: shell
 commands:
+    - build-image .
     - cd test
     - make check
 
