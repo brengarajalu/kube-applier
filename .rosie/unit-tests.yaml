@@ -1,6 +1,8 @@
 environment: overmind[kernel-3-backport]
 type: shell
 commands:
+    - bash --login -c "which -a build-image"
+    - bash  -c "which -a build-image"
     - whoami
     - hostname
     - which -a build-image
