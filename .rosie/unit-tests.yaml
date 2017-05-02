@@ -1,12 +1,14 @@
 environment: overmind[kernel-3-backport]
 type: shell
 commands:
-    - bash --login -c "which -a build-image"
-    - bash  -c "which -a build-image"
-    - whoami
-    - hostname
-    - which -a build-image
-    - build-image .
+    # Although the /etc/profile/skynet-tools.sh file extends the PATH env var
+    # accordingly, the jenkins session does not source the files there.
+    # Most probably the jenkins session is not a login session.
+    # Up until #productivity team resolves that we have to run the command in a
+    # login shell.
+    # Discussion https://box.slack.com/archives/C169RNDRT/p1493680538359986
+    # About a login shell: https://askubuntu.com/a/438170
+    - bash --login -c "build-image ."
     - cd test
     - make check
 
