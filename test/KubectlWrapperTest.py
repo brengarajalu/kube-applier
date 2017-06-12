@@ -17,7 +17,10 @@ namespace = """
    "apiVersion": "v1",
    "kind": "Namespace",
    "metadata": {
-      "name": "skynet-tools-test-namespace"
+      "name": "skynet-tools-test-namespace",
+      "annotations": {
+         "embedded-dashes": "-------"
+      }
    }
 }
 """
@@ -131,4 +134,3 @@ def main():
 
 if __name__=="__main__":
     main()
-
