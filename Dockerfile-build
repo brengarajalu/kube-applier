@@ -1,4 +1,4 @@
-FROM docker-registry-vip.dev.box.net/jenkins/box-sl6-build-golang
+FROM box-registry.jfrog.io/jenkins/box-sl6-build-golang
 
 ADD build.sh /
 
