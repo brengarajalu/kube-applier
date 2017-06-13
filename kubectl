@@ -10,6 +10,7 @@ from __future__ import print_function
 import argparse
 import subprocess
 import os
+import re
 import logging
 import sys
 import tempfile
@@ -97,7 +98,7 @@ def handle_apply_with_filename(params, other_params, filename):
 
     with open(p) as f:
         contents = f.read().strip()
-        jsons = contents.split("---")
+        jsons = re.compile("^---$", re.MULTILINE).split(contents)
         objs = [json.loads(j) for j in jsons if len(j)>0]
 
         apply_ok = [o for o in objs if not is_broken_with_apply(o)]
