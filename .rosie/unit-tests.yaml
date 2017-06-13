@@ -9,6 +9,9 @@ commands:
     # Discussion https://box.slack.com/archives/C169RNDRT/p1493680538359986
     # About a login shell: https://askubuntu.com/a/438170
     - bash --login -c "build-image ."
+    # Remove the intermediate directory created by build-image.  It is owned by
+    # root and causes problems during cleanup in following test executions.
+    - sudo rm -rf build
     - cd test
     - make check
 
