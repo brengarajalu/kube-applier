@@ -1,5 +1,5 @@
 # kubectl wrapper uses python 2.7
-FROM docker-registry-vip.dev.box.net/jenkins/box-sl6-python:2.7.x
+FROM box-registry.jfrog.io/jenkins/box-sl6-python:2.7.x
 
 LABEL com.box.name="kube-applier"
 
