@@ -1,4 +1,4 @@
-environment: overmind[kernel-3-backport]
+environment: jenkins2[skynet]
 type: shell
 commands:
     - build-image .
