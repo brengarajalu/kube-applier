@@ -149,7 +149,7 @@ def initLog():
     logging.basicConfig(
         format='%(asctime)s %(message)s',
         stream=sys.stdout,
-        level=os.environ.get("LOG","INFO"))
+        level=os.environ.get("LOG","WARNING"))
 
 def main():
     initLog()
