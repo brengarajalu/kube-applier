@@ -148,7 +148,7 @@ def handle_apply(params):
 def initLog():
     logging.basicConfig(
         format='%(asctime)s %(message)s',
-        stream=sys.stdout,
+        stream=sys.stderr,
         level=os.environ.get("LOG","WARNING"))
 
 def main():
