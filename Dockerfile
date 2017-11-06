@@ -11,7 +11,7 @@ ADD build/static /static
 # Specify 2.7.0 to avoid using a cached earlier version
 RUN yum install -y --enablerepo=box-apps-stable-sl6 git-2.7.0
 
-RUN yum install -y --enablerepo=box-apps-stable-sl6 kubernetes-kubectl-1.4.7-60.2017_01_11_16_21_59.54024.x86_64
+RUN yum install -y --enablerepo=box-apps-stable-sl6 kubernetes-kubectl-1.5.7-68.2017_06_29_18_49_05.74e4b
 
 RUN yum install -y --enablerepo=box-apps-stable-sl6 python-kubectlwrapper-0.0.2-11
 
