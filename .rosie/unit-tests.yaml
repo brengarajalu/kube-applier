@@ -2,9 +2,4 @@ environment: jenkins2[skynet]
 type: shell
 commands:
     - build-image .
-    # Remove the intermediate directory created by build-image.  It is owned by
-    # root and causes problems during cleanup in following test executions.
-    - sudo rm -rf build
-    - cd test
-    - make check
-
+    - sudo rm -rf build .ivy2
