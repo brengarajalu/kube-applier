@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Build a golang project from Github if only one tar is in /project which untars
+# Build a golang project from Github if only one tar is in /git-root which untars
 # only one top level directory.
 name=kube-applier
 
@@ -11,20 +11,22 @@ tarname=v0.2.0.tar.gz
 set -e
 set -x
 
-godir=/go/src/github.com/box
+TMP_DIR=$(mktemp -d)
+godir=$TMP_DIR/go/src/github.com/box
 
 mkdir -p $godir
-export GOPATH=/go
+export GOPATH=$TMP_DIR/go
 export GO15VENDOREXPERIMENT=1
-mkdir /scratch
-tar zxf /project/$tarname -C /scratch
-tardirname=$(ls /scratch)
-mv /scratch/$tardirname $godir/$name
+export SCRATCH=$TMP_DIR/scratch
+mkdir -p $SCRATCH
+tar zxf /git-root/$tarname -C $SCRATCH
+tardirname=$(ls $SCRATCH)
+mv $SCRATCH/$tardirname $godir/$name
 cd $godir/$name
 go build -o $name .
 
-rm -rf /project/build
-mkdir -p /project/build/templates /project/build/static
-mv $name /project/build
-mv templates /project/build
-mv static /project/build
+rm -rf /git-root/build
+mkdir -p /git-root/build/templates /git-root/build/static
+mv $name /git-root/build
+mv templates /git-root/build
+mv static /git-root/build
