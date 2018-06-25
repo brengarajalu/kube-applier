@@ -1,5 +1,0 @@
-environment: jenkins2[skynet]
-type: shell
-commands:
-    - build-image .
-    - sudo rm -rf build .ivy2
