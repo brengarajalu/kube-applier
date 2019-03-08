@@ -6,7 +6,7 @@ name=kube-applier
 
 # 0.2.0 is equivalent to the official 0.2.0 release here
 # https://github.com/box/kube-applier/tree/v0.2.0
-tarname=v0.2.0.tar.gz
+tarname=v0.2.1.tar.gz
 
 set -e
 set -x
